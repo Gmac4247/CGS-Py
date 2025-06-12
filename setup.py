@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name="basic-geometry",
+    name="Core Geometric System ™",
     version="1.0.0",
     description="Exact geometric formulas for area, circumference, and volume",
     author="Gaál Sándor",
