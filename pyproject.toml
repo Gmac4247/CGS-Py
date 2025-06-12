@@ -7,7 +7,7 @@ name = "Core Geometric System ™"
 version = "1.0.0"
 description = "Exact geometric formulas for area, circumference, and volume"
 authors = [
-    { name="Gaál Sándor", email="gmac4247@yahoo.com" }
+    { name="Gaal Sandor", email="gmac4247@yahoo.com" }
 ]
 license = { text = "® All rights reserved" }
 readme = "README.md"
