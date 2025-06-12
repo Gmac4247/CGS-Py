@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "basic_geometry"
+version = "1.0.0"
+description = "Exact geometric formulas for area, circumference, and volume"
+authors = [
+    { name="Gaál Sándor", email="gmac4247@yahoo.com" }
+]
+license = { text = "® All rights reserved" }
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [basic-geometry.py]
