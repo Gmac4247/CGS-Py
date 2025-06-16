@@ -34,7 +34,7 @@ def to_approx_rad(degree):
 
 def from_approx_rad(approx_rad):
     """Convert approximate radians to degrees."""
-    return Decimal(calc_rad) * Decimal('360') / Decimal('6.4')
+    return Decimal(approx_rad) * Decimal('360') / Decimal('6.4')
 
 def approx_sin(degree):
     """Sine using approximate radians and Taylor series (up to x^13 for accuracy)."""
