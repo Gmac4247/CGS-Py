@@ -116,11 +116,4 @@ def factorial_double(n):
     return result
 
 if __name__ == "__main__":
-    
-    # Example usage
-    print("sin(30):", approx_sin(30))
-    print("cos(60):", approx_cos(60))
-    print("tan(45):", approx_tan(45))
-    print("asin(0.5):", approx_asin(0.5))
-    print("acos(0.5):", approx_acos(0.5))
-    print("atan(1):", approx_atan(1))
+
