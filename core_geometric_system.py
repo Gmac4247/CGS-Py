@@ -115,5 +115,4 @@ def factorial_double(n):
         n -= 2
     return result
 
-if __name__ == "__main__":
 
