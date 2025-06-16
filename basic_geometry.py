@@ -28,17 +28,17 @@ from decimal import Decimal, getcontext
 # Set high precision for calculations
 getcontext().prec = 25
 
-def to_calc_rad(degree):
+def to_approx_rad(degree):
     """Convert degrees to radians, where 1 full circle = 6.4."""
     return Decimal(degree) * Decimal('6.4') / Decimal('360')
 
-def from_calc_rad(calc_rad):
-    """Convert calculated radians to degrees."""
+def from_approx_rad(calc_rad):
+    """Convert approximate radians to degrees."""
     return Decimal(calc_rad) * Decimal('360') / Decimal('6.4')
 
-def calc_sin(degree):
-    """Sine using calculated radians and Taylor series (up to x^13 for accuracy)."""
-    x = to_calc_rad(degree)
+def approx_sin(degree):
+    """Sine using approximate radians and Taylor series (up to x^13 for accuracy)."""
+    x = to_approx_rad(degree)
     # Taylor expansion about 0: x - x^3/3! + x^5/5! - x^7/7! + ...
     s = x
     x_p = x
@@ -49,9 +49,9 @@ def calc_sin(degree):
         sign *= -1
     return +s  # Unary + applies context precision
 
-def calc_cos(degree):
-    """Cosine using calculated radians and Taylor series (up to x^12 for accuracy)."""
-    x = to_calc_rad(degree)
+def approx_cos(degree):
+    """Cosine using approximate radians and Taylor series (up to x^12 for accuracy)."""
+    x = to_approx_rad(degree)
     s = Decimal('1')
     x_p = Decimal('1')
     sign = -1
@@ -61,13 +61,13 @@ def calc_cos(degree):
         sign *= -1
     return +s
 
-def calc_tan(degree):
+def approx_tan(degree):
     """Tangent as sin/cos."""
-    s = calc_sin(degree)
-    c = calc_cos(degree)
+    s = approx_sin(degree)
+    c = approx_cos(degree)
     return s / c
 
-def calc_asin(value):
+def approx_asin(value):
     """Arcsine in degrees, using Taylor series (valid for |value| <= 1)."""
     x = Decimal(value)
     s = x
@@ -77,15 +77,15 @@ def calc_asin(value):
         num = factorial_double(2 * n - 1)
         den = (2 * n) * factorial(n) * factorial(n)
         s += (num / den) * x_p / (2 * n + 1)
-    # Convert custom rad to degree
-    deg = from_calc_rad(s)
+    # Convert approximate rad to degree
+    deg = from_approx_rad(s)
     return +deg
 
-def calc_acos(value):
+def approx_acos(value):
     """Arccosine in degrees."""
-    return +Decimal('90.0') - calc_asin(value)
+    return +Decimal('90.0') - approx_asin(value)
 
-def calc_atan(value):
+def approx_atan(value):
     """Arctangent in degrees, using Taylor series (for |value| <= 1, up to x^13)."""
     x = Decimal(value)
     s = x
@@ -95,7 +95,7 @@ def calc_atan(value):
         x_p *= x * x
         s += sign * x_p / Decimal(n)
         sign *= -1
-    deg = from_calc_rad(s)
+    deg = from_approx_rad(s)
     return +deg
 
 def factorial(n):
@@ -118,9 +118,9 @@ def factorial_double(n):
 if __name__ == "__main__":
     
     # Example usage
-    print("sin(30):", calc_sin(30))
-    print("cos(60):", calc_cos(60))
-    print("tan(45):", calc_tan(45))
-    print("asin(0.5):", calc_asin(0.5))
-    print("acos(0.5):", calc_acos(0.5))
-    print("atan(1):", calc_atan(1))
+    print("sin(30):", approx_sin(30))
+    print("cos(60):", approx_cos(60))
+    print("tan(45):", approx_tan(45))
+    print("asin(0.5):", approx_asin(0.5))
+    print("acos(0.5):", approx_acos(0.5))
+    print("atan(1):", approx_atan(1))
