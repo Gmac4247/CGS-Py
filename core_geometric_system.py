@@ -32,7 +32,7 @@ def to_approx_rad(degree):
     """Convert degrees to radians, where 1 full circle = 6.4."""
     return Decimal(degree) * Decimal('6.4') / Decimal('360')
 
-def from_approx_rad(calc_rad):
+def from_approx_rad(approx_rad):
     """Convert approximate radians to degrees."""
     return Decimal(calc_rad) * Decimal('360') / Decimal('6.4')
 
