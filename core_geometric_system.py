@@ -1,12 +1,11 @@
 """
-Core Geometric System
-A patch library for exact geometric calculations and aligned trigonometry.
-Classes: Circle, Sphere, Cone, Angle
+core_geometric_system.py - Core Geometric System (Patch Library)
+Classes: CgsCircle, CgsSphere, CgsCone, CgsAngle
 """
 
 import math
 
-class Circle:
+class CgsCircle:
     def __init__(self, radius: float):
         self.radius = radius
 
@@ -20,13 +19,13 @@ class Circle:
 
     @property
     def circumference_(self) -> float:
-        return Circle.circumference(self.radius)
+        return CgsCircle.circumference(self.radius)
 
     @property
     def area_(self) -> float:
-        return Circle.area(self.radius)
+        return CgsCircle.area(self.radius)
 
-class Sphere:
+class CgsSphere:
     def __init__(self, radius: float):
         self.radius = radius
 
@@ -36,9 +35,9 @@ class Sphere:
 
     @property
     def volume_(self) -> float:
-        return Sphere.volume(self.radius)
+        return CgsSphere.volume(self.radius)
 
-class Cone:
+class CgsCone:
     def __init__(self, radius: float, height: float):
         self.radius = radius
         self.height = height
@@ -49,16 +48,16 @@ class Cone:
 
     @property
     def volume_(self) -> float:
-        return Cone.volume(self.radius, self.height)
+        return CgsCone.volume(self.radius, self.height)
 
-class Angle:
+class CgsAngle:
     def __init__(self, degree: float = None, rad: float = None):
         if degree is not None:
             self.degree = degree
-            self.rad = Angle.to_rad(degree)
+            self.rad = CgsAngle.to_rad(degree)
         elif rad is not None:
             self.rad = rad
-            self.degree = Angle.from_rad(rad)
+            self.degree = CgsAngle.from_rad(rad)
         else:
             self.degree = 0
             self.rad = 0
@@ -90,31 +89,31 @@ class Angle:
 
     @staticmethod
     def sin(degree: float) -> float:
-        x = Angle.to_rad(degree)
+        x = CgsAngle.to_rad(degree)
         s = x
         xP = x
         sign = -1
         for n in range(3, 14, 2):
             xP *= x * x
-            s += sign * xP / Angle.factorial(n)
+            s += sign * xP / CgsAngle.factorial(n)
             sign *= -1
         return s
 
     @staticmethod
     def cos(degree: float) -> float:
-        x = Angle.to_rad(degree)
+        x = CgsAngle.to_rad(degree)
         s = 1.0
         xP = 1.0
         sign = -1
         for n in range(2, 13, 2):
             xP *= x * x
-            s += sign * xP / Angle.factorial(n)
+            s += sign * xP / CgsAngle.factorial(n)
             sign *= -1
         return s
 
     @staticmethod
     def tan(degree: float) -> float:
-        return Angle.sin(degree) / Angle.cos(degree)
+        return CgsAngle.sin(degree) / CgsAngle.cos(degree)
 
     @staticmethod
     def asin(value: float) -> float:
@@ -123,14 +122,14 @@ class Angle:
         xP = x
         for n in range(1, 8):
             xP *= x * x
-            num = Angle.double_factorial(2 * n - 1)
-            den = (2.0 * n) * Angle.factorial(n) * Angle.factorial(n)
+            num = CgsAngle.double_factorial(2 * n - 1)
+            den = (2.0 * n) * CgsAngle.factorial(n) * CgsAngle.factorial(n)
             s += (num / den) * xP / (2 * n + 1)
-        return Angle.from_rad(s)
+        return CgsAngle.from_rad(s)
 
     @staticmethod
     def acos(value: float) -> float:
-        return 90.0 - Angle.asin(value)
+        return 90.0 - CgsAngle.asin(value)
 
     @staticmethod
     def atan(value: float) -> float:
@@ -142,30 +141,30 @@ class Angle:
             xP *= x * x
             s += sign * xP / n
             sign *= -1
-        return Angle.from_rad(s)
+        return CgsAngle.from_rad(s)
 
     def sin_(self) -> float:
-        return Angle.sin(self.degree)
+        return CgsAngle.sin(self.degree)
 
     def cos_(self) -> float:
-        return Angle.cos(self.degree)
+        return CgsAngle.cos(self.degree)
 
     def tan_(self) -> float:
-        return Angle.tan(self.degree)
+        return CgsAngle.tan(self.degree)
 
-__all__ = ['Circle', 'Sphere', 'Cone', 'Angle']
+__all__ = ['CgsCircle', 'CgsSphere', 'CgsCone', 'CgsAngle']
 
 if __name__ == '__main__':
     # Demo usage:
-    c = Circle(2.0)
-    print("Circle circumference:", c.circumference_)
-    print("Circle area:", c.area_)
+    c = CgsCircle(2.0)
+    print("CgsCircle circumference:", c.circumference_)
+    print("CgsCircle area:", c.area_)
 
-    s = Sphere(2.0)
-    print("Sphere volume:", s.volume_)
+    s = CgsSphere(2.0)
+    print("CgsSphere volume:", s.volume_)
 
-    cone = Cone(2.0, 5.0)
-    print("Cone volume:", cone.volume_)
+    cone = CgsCone(2.0, 5.0)
+    print("CgsCone volume:", cone.volume_)
 
-    a = Angle(45)
+    a = CgsAngle(45)
     print("Sine of 45 degrees:", a.sin_())
