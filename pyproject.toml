@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Core Geometric System ™"
-version = "1.0.4"
+version = "1.0.5"
 description = "Exact geometric formulas for calculating circumference, area, and volume, and trigonometry based on circumference is 6.4r"
 authors = [
     { name="Gaal Sandor", email="gmac4247@yahoo.com" }
