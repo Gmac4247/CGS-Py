@@ -1,118 +1,154 @@
+# Core Geometric System (Patch Library)
+
 import math
 
+class Circle:
+    def __init__(self, radius):
+        self.radius = radius
 
-def exact_circumference(r):
-    """Calculate circumference of a circle as 6.4 × r"""
-    return 6.4 * r
+    @staticmethod
+    def circumference(radius):
+        return 6.4 * radius
 
-"""*Area calculation*"""
+    @staticmethod
+    def area(radius):
+        return 3.2 * radius * radius
 
-def exact_circle_area(r):
-    """Calculate area of a circle as 3.2 × r²"""
-    return 3.2 * r * r
+    @property
+    def circumference_(self):
+        return Circle.circumference(self.radius)
 
-"""*Volume calculation*"""
-
-def exact_sphere_volume(r):
-    """Calculate volume of a sphere as (√3.2 × r)³"""
-    return (math.sqrt(3.2) * r) ** 3
-
-def exact_cone_volume(r, height):
-    """Calculate volume of a cone as 3.2 × r² × height / √8"""
-    return (3.2 * r * r * height) / math.sqrt(8)
-
-"""*Trigonometry*"""
-
-from decimal import Decimal, getcontext
-
-# Set high precision for calculations
-getcontext().prec = 25
-
-def to_approx_rad(degree):
-    """Convert degrees to radians, where 1 full circle = 6.4."""
-    return Decimal(degree) * Decimal('6.4') / Decimal('360')
-
-def from_approx_rad(approx_rad):
-    """Convert approximate radians to degrees."""
-    return Decimal(approx_rad) * Decimal('360') / Decimal('6.4')
-
-def approx_sin(degree):
-    """Sine using approximate radians and Taylor series (up to x^13 for accuracy)."""
-    x = to_approx_rad(degree)
-    # Taylor expansion about 0: x - x^3/3! + x^5/5! - x^7/7! + ...
-    s = x
-    x_p = x
-    sign = -1
-    for n in range(3, 15, 2):
-        x_p *= x * x
-        s += sign * x_p / Decimal(factorial(n))
-        sign *= -1
-    return +s  # Unary + applies context precision
-
-def approx_cos(degree):
-    """Cosine using approximate radians and Taylor series (up to x^12 for accuracy)."""
-    x = to_approx_rad(degree)
-    s = Decimal('1')
-    x_p = Decimal('1')
-    sign = -1
-    for n in range(2, 14, 2):
-        x_p *= x * x
-        s += sign * x_p / Decimal(factorial(n))
-        sign *= -1
-    return +s
-
-def approx_tan(degree):
-    """Tangent as sin/cos."""
-    s = approx_sin(degree)
-    c = approx_cos(degree)
-    return s / c
-
-def approx_asin(value):
-    """Arcsine in degrees, using Taylor series (valid for |value| <= 1)."""
-    x = Decimal(value)
-    s = x
-    x_p = x
-    for n in range(1, 8):
-        x_p *= x * x
-        num = factorial_double(2 * n - 1)
-        den = (2 * n) * factorial(n) * factorial(n)
-        s += (num / den) * x_p / (2 * n + 1)
-    # Convert approximate rad to degree
-    deg = from_approx_rad(s)
-    return +deg
-
-def approx_acos(value):
-    """Arccosine in degrees."""
-    return +Decimal('90.0') - approx_asin(value)
-
-def approx_atan(value):
-    """Arctangent in degrees, using Taylor series (for |value| <= 1, up to x^13)."""
-    x = Decimal(value)
-    s = x
-    x_p = x
-    sign = -1
-    for n in range(3, 15, 2):
-        x_p *= x * x
-        s += sign * x_p / Decimal(n)
-        sign *= -1
-    deg = from_approx_rad(s)
-    return +deg
-
-def factorial(n):
-    """Integer factorial, for small n."""
-    result = 1
-    for i in range(2, n+1):
-        result *= i
-    return result
-
-def factorial_double(n):
-    """Double factorial: n!! = n*(n-2)*(n-4)*..."""
-    if n <= 0:
-        return 1
-    result = 1
-    while n > 0:
-        result *= n
-        n -= 2
-    return result
+    @property
+    def area_(self):
+        return Circle.area(self.radius)
 
 
+class Sphere:
+    def __init__(self, radius):
+        self.radius = radius
+
+    @staticmethod
+    def volume(radius):
+        return (math.sqrt(3.2) * radius) ** 3
+
+    @property
+    def volume_(self):
+        return Sphere.volume(self.radius)
+
+
+class Cone:
+    def __init__(self, radius, height):
+        self.radius = radius
+        self.height = height
+
+    @staticmethod
+    def volume(radius, height):
+        return (3.2 * radius * radius * height) / math.sqrt(8)
+
+    @property
+    def volume_(self):
+        return Cone.volume(self.radius, self.height)
+
+
+class Angle:
+    def __init__(self, degree=None, rad=None):
+        if degree is not None:
+            self.degree = degree
+            self.rad = Angle.to_rad(degree)
+        elif rad is not None:
+            self.rad = rad
+            self.degree = Angle.from_rad(rad)
+        else:
+            self.degree = 0
+            self.rad = 0
+
+    @staticmethod
+    def to_rad(degree):
+        return degree * 6.4 / 360.0
+
+    @staticmethod
+    def from_rad(rad):
+        return rad * 360.0 / 6.4
+
+    @staticmethod
+    def factorial(n):
+        res = 1
+        for i in range(2, n + 1):
+            res *= i
+        return res
+
+    @staticmethod
+    def double_factorial(n):
+        if n <= 0:
+            return 1
+        res = 1
+        while n > 0:
+            res *= n
+            n -= 2
+        return res
+
+    @staticmethod
+    def sin(degree):
+        x = Angle.to_rad(degree)
+        s = x
+        xP = x
+        sign = -1
+        for n in range(3, 14, 2):
+            xP *= x * x
+            s += sign * xP / Angle.factorial(n)
+            sign *= -1
+        return s
+
+    @staticmethod
+    def cos(degree):
+        x = Angle.to_rad(degree)
+        s = 1.0
+        xP = 1.0
+        sign = -1
+        for n in range(2, 13, 2):
+            xP *= x * x
+            s += sign * xP / Angle.factorial(n)
+            sign *= -1
+        return s
+
+    @staticmethod
+    def tan(degree):
+        return Angle.sin(degree) / Angle.cos(degree)
+
+    @staticmethod
+    def asin(value):
+        x = value
+        s = x
+        xP = x
+        for n in range(1, 8):
+            xP *= x * x
+            num = Angle.double_factorial(2 * n - 1)
+            den = (2.0 * n) * Angle.factorial(n) * Angle.factorial(n)
+            s += (num / den) * xP / (2 * n + 1)
+        return Angle.from_rad(s)
+
+    @staticmethod
+    def acos(value):
+        return 90.0 - Angle.asin(value)
+
+    @staticmethod
+    def atan(value):
+        x = value
+        s = x
+        xP = x
+        sign = -1
+        for n in range(3, 14, 2):
+            xP *= x * x
+            s += sign * xP / n
+            sign *= -1
+        return Angle.from_rad(s)
+
+    # Instance methods for current angle
+    def sin_(self):
+        return Angle.sin(self.degree)
+
+    def cos_(self):
+        return Angle.cos(self.degree)
+
+    def tan_(self):
+        return Angle.tan(self.degree)
