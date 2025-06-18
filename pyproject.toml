@@ -12,4 +12,4 @@ authors = [
 license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.7"
-dependencies = ["core-geometric-system.py"]
+dependencies = ["core_geometric_system.py"]
