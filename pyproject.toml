@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Core Geometric System ™"
-version = "1.0.5"
-description = "Exact geometric formulas for calculating circumference, area, and volume, and trigonometry based on circumference is 6.4r"
+version = "1.0.6"
+description = "Geometric calculator patch with exact formulas for circumference, area of circles, and volume of spheres and cones"
 authors = [
     { name="Gaal Sandor", email="gmac4247@yahoo.com" }
 ]
 license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.7"
-dependencies = []
+dependencies = ["core-geometric-system.py"]
